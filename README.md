@@ -1,2 +1,3 @@
 # Code-To-Code_Translator
-Translate code with ease!
+
+This is where code-to-code translator files will go. Update with info as code/files get added.
