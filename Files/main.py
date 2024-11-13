@@ -1,9 +1,9 @@
 import gradio as gr
 import anthropic
+from anthropicKey import key
 
 client = anthropic.Anthropic(
-    # defaults to os.environ.get("ANTHROPIC_API_KEY")
-    api_key="my_api_key",
+    api_key=key,
 )
 
 def get_response(request):
