@@ -1,31 +1,23 @@
-import gradio as gr
 import anthropic
+import os
 from anthropicKey import key
+from langchain_anthropic import ChatAnthropic
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
 
-client = anthropic.Anthropic(
-    api_key=key,
-)
+os.environ["ANTHROPIC_API_KEY"] = key
 
-def get_response(request):
-    message = client.messages.create(
-        model="claude-3-5-sonnet-20240620",
-        max_tokens=1000,
-        temperature=0,
-        system="Translate the given code into Java code.",
-        messages=[
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": request
-                    }
-                ]
-            }
-        ]
+model = ChatAnthropic(model = "claude-3-5-sonnet-20241022", temperature = 0)
+parser = StrOutputParser()
+
+prompt_template = ChatPromptTemplate.from_messages(
+    [
+        ("system", "Translate the given code to {language} without additional explanation or text. If there is an error in the code or cannot be translated, return only the word 'Error'."),
+         ("user", "{code}")
+         ]
     )
-    return message.content
 
-demo = gr.Interface(fn=get_response, inputs="text", outputs="text")
-    
-demo.launch(share=True) 
+chain = prompt_template | model | parser
+
+print(chain.invoke(input={"code": "print('Hello World')", "language": "Java"}))
