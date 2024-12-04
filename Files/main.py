@@ -1,23 +1,84 @@
-import anthropic
-import os
-from anthropicKey import key
-from langchain_anthropic import ChatAnthropic
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
+import tkinter as tk
+from tkinter import ttk
+from tkinter import Text
+import AI_Response
 
-os.environ["ANTHROPIC_API_KEY"] = key
+class App(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.geometry("1000x500")
+        self.title('Code-To-Code Translator')
 
-model = ChatAnthropic(model = "claude-3-5-sonnet-20241022", temperature = 0)
-parser = StrOutputParser()
+        # initialize data
+        self.languages = ("Select a Language","Python","Java","Javascript","C","C++","C#","PHP","HTML","CSS")
 
-prompt_template = ChatPromptTemplate.from_messages(
-    [
-        ("system", "Translate the given code to {language} without additional explanation or text. If there is an error in the code or cannot be translated, return only the word 'Error'."),
-         ("user", "{code}")
-         ]
-    )
+        # set up variable
+        self.current_language = tk.StringVar(self)
 
-chain = prompt_template | model | parser
+        # place widgets
+        self.place_wigets()
 
-print(chain.invoke(input={"code": "print('Hello World')", "language": "Java"}))
+    def place_wigets(self):
+        
+        # user label
+        user_label = ttk.Label(self,  text='User:', font=("Times New Roman", 15))
+        user_label.place(x=0, y=0)
+
+        # translation label
+        translation_label = ttk.Label(self,  text='Translation:', font=("Times New Roman", 15))
+        translation_label.place(x=500,y=0)
+
+        # user text entry
+        user_entry = Text(self, height=5, width=60)
+        user_entry.place(x=5, y=25)
+
+        # translation text entry
+        translation_entry = Text(self, height=5, width=60)
+        translation_entry.place(x=500, y=25)
+        translation_entry['state'] = 'disabled'
+
+        # option menu
+        option_menu = ttk.OptionMenu(
+            self,
+            self.current_language,
+            self.languages[0],
+            *self.languages)
+        option_menu.config(width=17)
+        option_menu.place(x=0, y=110)
+
+        # clear button
+        translate_button = ttk.Button(self, text="Clear")
+        translate_button.place(x=10, y=140, width=225, height=30)
+
+        # translate button
+        translate_button = ttk.Button(self, text="Translate", command=lambda: self.translate(user_entry, translation_entry))
+        translate_button.place(x=250, y=140, width=225, height=30)
+
+        # exit button
+        translate_button = ttk.Button(self, text="Exit Program", command=lambda: self.quit())
+        translate_button.place(x=10, y=175)
+    
+    # translate function
+    def translate(self, user_text, translation_text):
+
+        # clear output
+        translation_text['state'] = 'normal'
+        translation_text.delete("1.0", "end")
+        translation_text.insert("1.0", "Translation Loading...")
+        translation_text['state'] = 'disabled'
+
+        # get response
+        if self.current_language.get() != "Select a Language":
+            user = str(user_text.get("1.0","end"))
+            language = self.current_language.get()
+            response = AI_Response.get_response(user, language)
+        else:
+            response = "Select a Language"
+        translation_text['state'] = 'normal'
+        translation_text.delete("1.0", "end")
+        translation_text.insert("1.0", response)
+        translation_text['state'] = 'disabled'
+
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
