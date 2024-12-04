@@ -50,7 +50,7 @@ class App(tk.Tk):
         option_menu.place(x=0, y=200)
 
         # clear button
-        translate_button = ttk.Button(self, text="Clear")
+        translate_button = ttk.Button(self, text="Clear", command=lambda: self.clear(user_entry, translation_entry))
         translate_button.place(x=10, y=230, width=225, height=30)
 
         # translate button
@@ -61,6 +61,13 @@ class App(tk.Tk):
         translate_button = ttk.Button(self, text="Exit Program", command=lambda: self.quit())
         translate_button.place(x=10, y=265)
     
+    # clear entries
+    def clear(self, user_text, translation_text):
+        user_text.delete("1.0", "end")
+        translation_text['state'] = 'normal'
+        translation_text.delete("1.0", "end")
+        translation_text['state'] = 'disabled'
+
     # translate function
     def translate(self, user_text, translation_text):
 
