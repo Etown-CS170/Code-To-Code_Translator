@@ -29,11 +29,11 @@ class App(tk.Tk):
         translation_label.place(x=500,y=0)
 
         # user text entry
-        user_entry = Text(self, height=5, width=60)
+        user_entry = Text(self, height=10, width=60)
         user_entry.place(x=5, y=25)
 
         # translation text entry
-        translation_entry = Text(self, height=5, width=60)
+        translation_entry = Text(self, height=10, width=60)
         translation_entry.place(x=500, y=25)
         translation_entry['state'] = 'disabled'
 
@@ -44,19 +44,19 @@ class App(tk.Tk):
             self.languages[0],
             *self.languages)
         option_menu.config(width=17)
-        option_menu.place(x=0, y=110)
+        option_menu.place(x=0, y=200)
 
         # clear button
         translate_button = ttk.Button(self, text="Clear")
-        translate_button.place(x=10, y=140, width=225, height=30)
+        translate_button.place(x=10, y=230, width=225, height=30)
 
         # translate button
         translate_button = ttk.Button(self, text="Translate", command=lambda: self.translate(user_entry, translation_entry))
-        translate_button.place(x=250, y=140, width=225, height=30)
+        translate_button.place(x=250, y=230, width=225, height=30)
 
         # exit button
         translate_button = ttk.Button(self, text="Exit Program", command=lambda: self.quit())
-        translate_button.place(x=10, y=175)
+        translate_button.place(x=10, y=265)
     
     # translate function
     def translate(self, user_text, translation_text):
