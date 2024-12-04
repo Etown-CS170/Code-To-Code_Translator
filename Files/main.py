@@ -8,7 +8,9 @@ class App(tk.Tk):
         super().__init__()
         self.geometry("1000x500")
         self.title('Code-To-Code Translator')
-        self.iconbitmap("./assets/CodeToCodeTranslate.ico")
+
+        #TODO Have iconbitmap function regardless of where code executed
+        #self.iconbitmap("./assets/CodeToCodeTranslate.ico")
 
         # initialize data
         self.languages = ("Select a Language","Python","Java","Javascript","C","C++","C#","PHP","HTML","CSS")
