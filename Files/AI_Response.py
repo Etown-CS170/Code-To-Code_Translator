@@ -13,7 +13,7 @@ parser = StrOutputParser()
 
 prompt_template = ChatPromptTemplate.from_messages(
     [
-        ("system", "Translate the given code to {language} without additional explanation or text. If there is an error in the code or cannot be translated, return only the word 'Error'."),
+        ("system", "Translate the given code to {language} without additional explanation or text. If there is an error in the code, return only 'Error: Line' followed by the line the error is in. If a translation cannot be found, return only 'Translation not found'"),
          ("user", "{code}")
          ]
     )
