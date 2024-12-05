@@ -18,4 +18,6 @@ Steps to Install/Use:
 
 5. Run main.py to start application
 
+Alternatively, the google colab link included in the repo can be used, which uses gradio and google's secrets system.
+
 AI Tools Used: Anthropic's Claude 3.5 Sonnet, LangChain
